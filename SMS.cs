@@ -148,19 +148,16 @@ namespace Libs
             }
         }
 
-        public string TesteRetorno()
+        public string ReturnSim()
         {
-            //string receiveData = ExecutarComando("AT#RSEN", 300, "Nenhum Telefone Conectado");
-            //string receiveData = ExecutarComando(PortaSerial, "ATCMD1 CMD2=10+CMD1;+CMD2=, ,10;+CMD1?;+CMD1=?<CR>", 300, "Erro");
-            //string receiveData = ExecutarComando(PortaSerial, "AT#RSS", 300, "Nenhum Telefone Conectado");
-            //string receiveData = ExecutarComando(PortaSerial, "AT+GSN", 300, "Nenhum Telefone Conectado");
-            //string receiveData = ExecutarComando(PortaSerial, "AT#CCID=?", 300, "Nenhum Telefone Conectado");
-            //string receiveData = ExecutarComando(PortaSerial, "AT#CCID", 300, "Nenhum Telefone Conectado");
-            //string receiveData = ExecutarComando(PortaSerial, "AT#CIMI", 300, "Nenhum Telefone Conectado");
+            string result = ExecutarComando("AT+CIMI", 300, "Nenhum Telefone Conectado");
 
-            string receiveData = ExecutarComando("AT+CIMI", 300, "Nenhum Telefone Conectado");
+            Regex regex = new Regex(@"\d+");
+            Match match = regex.Match(result);
 
-            return receiveData;
+            string sim = match.Value.ToString();
+
+            return sim;
         }
     }
 }

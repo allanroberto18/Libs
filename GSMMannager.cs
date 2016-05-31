@@ -36,7 +36,7 @@ namespace Libs
             {
                 conn.OpenPort();
 
-                string resultado = conn.TesteRetorno();
+                string resultado = conn.ReturnSim();
 
                 conn.ClosePort();
 
@@ -45,7 +45,7 @@ namespace Libs
             catch (Exception ex)
             {
                 conn.ClosePort();
-                throw ex;
+                return ex.Message;
             }
         }
 

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3048BADD-B244-4324-B399-C2E36C95DE90}</ProjectGuid>
+    <ProjectGuid>{F56F9DC4-EE3F-4700-9C11-1D307F1F74C4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Libs</RootNamespace>
@@ -28,9 +28,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>sms_converted.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GSMCommServer, Version=1.21.0.0, Culture=neutral, PublicKeyToken=515d87df384dcc81, processorArchitecture=MSIL">
@@ -70,6 +67,7 @@
     <Compile Include="ShortMessage.cs" />
     <Compile Include="ShortMessageCollection.cs" />
     <Compile Include="SMS.cs" />
+    <Compile Include="SMSOld.cs" />
     <Compile Include="Validacao.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -45,7 +45,7 @@ namespace Libs
             catch (Exception ex)
             {
                 conn.ClosePort();
-                return ex.Message;
+                return null;
             }
         }
 

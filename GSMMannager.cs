@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Data;
-using System.IO.Ports;
-using System.Linq;
 using GsmComm.GsmCommunication;
 using GsmComm.PduConverter;
 using GsmComm.PduConverter.SmartMessaging;
-using GsmComm.Server;
+using Entities.Models;
+using Entities.Services;
 
 namespace Libs
 {
@@ -42,9 +41,10 @@ namespace Libs
 
                 return resultado;
             }
-            catch (Exception ex)
+            catch 
             {
                 conn.ClosePort();
+
                 return null;
             }
         }

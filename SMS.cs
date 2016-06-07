@@ -18,7 +18,10 @@ namespace Libs
                 //PortaCOM.GetPorta();
                 return AppConfig.GetValue("porta");
             }
-            set { PortaCOM.GetPorta(); }
+            set
+            {
+                PortaCOM.GetPorta();
+            }
         }
 
         public int BaudRate { get; set; }

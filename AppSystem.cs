@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace Libs
@@ -74,6 +73,25 @@ namespace Libs
                 else
                     LimparText(c);
             }
+        }
+
+        public static string FormatTelefone(string telefone)
+        {
+            string result = "";
+            if (String.IsNullOrEmpty(telefone))
+            {
+                return result;
+            }
+            telefone = telefone.Replace("(", "").Replace(")", "").Replace(" ", "").Replace("-", "");
+            if (telefone.Length == 10)
+            {
+                result = String.Format("{0:(##) 9####-####}", Convert.ToInt64(telefone));
+            }
+            if (telefone.Length == 11)
+            {
+                result = String.Format("{0:(##) #####-####}", Convert.ToInt64(telefone));
+            }
+            return result;
         }
     }
 }

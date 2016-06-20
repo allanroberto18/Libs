@@ -27,26 +27,30 @@ namespace Libs
             Timeout = timeout;
         }
 
-        public string SerialNumber()
+        public void SerialNumber()
         {
             //GsmCommMain conn = new GsmCommMain(Porta);
             SMS conn = new SMS();
+            string resultado;
             try
             {
                 conn.OpenPort();
+                resultado = conn.ReturnSim();
 
-                string resultado = conn.ReturnSim();
+                Sims entity = new Sims();
+                entity.SetParams(resultado, 1);
 
+                SimsService service = new SimsService();
+                service.Add(entity);
+                
                 conn.ClosePort();
-
-                return resultado;
             }
-            catch 
+            catch
             {
                 conn.ClosePort();
-
-                return null;
+                resultado = "SIM não localizado";
             }
+            AppConfig.UpdateSetting("sim", resultado);
         }
 
         public string TestConnection()
@@ -71,12 +75,29 @@ namespace Libs
 
         public bool EnviarMensagem(string text, string phone)
         {
+            // Checando os disparos
+            string sim = AppConfig.GetValue("sim");
+            if (sim == "SIM" || sim == "SIM não localizado")
+            {
+                throw new Exception("O chip não foi localizado, verifique se o mesmo está conectado e tente mais tarde");
+            }
+            SimsService simsService = new SimsService();
+            Sims entitySims = simsService.getBySim(sim);
+            AppConfig.UpdateSetting("disparos", entitySims.Quantidade.ToString());
+
+            if (entitySims.Quantidade >= 190)
+            {
+                throw new Exception("O chip excedeu a quantidade de disparos diária");
+            }
+
             if (text.Length > 160)
             {
-                EnviarMensagemByArray(text, phone);
+                EnviarMensagemByArray(text, phone, entitySims);
 
                 return true;
             }
+
+            int quantidade = entitySims.Quantidade + 1;
 
             SmsSubmitPdu pdu = new SmsSubmitPdu(text, phone, "");
             GsmCommMain conn = new GsmCommMain(Porta);
@@ -89,6 +110,12 @@ namespace Libs
 
                 conn.Close();
 
+                entitySims.Quantidade = quantidade;
+
+                simsService.Edit(entitySims);
+
+                AppConfig.UpdateSetting("disparos", quantidade.ToString());
+
                 return true;
             }
             catch (Exception ex)
@@ -99,11 +126,19 @@ namespace Libs
             }
         }
 
-        public void EnviarMensagemByArray(string text, string phone)
+        public void EnviarMensagemByArray(string text, string phone, Sims entity)
         {
             SmsSubmitPdu[] pdu = SmartMessageFactory.CreateConcatTextMessage(text, phone);
 
             GsmCommMain conn = new GsmCommMain(Porta);
+            
+
+            if (entity.Quantidade >= 190)
+            {
+                throw new Exception("O chip excedeu a quantidade de disparos diária");
+            }
+
+            int quantidade = GetTamanhoMsg(text) + entity.Quantidade;
 
             foreach (SmsSubmitPdu item in pdu)
             {
@@ -112,6 +147,12 @@ namespace Libs
                     conn.Open();
 
                     conn.SendMessage(item);
+
+                    SimsService simsService = new SimsService();
+                    entity.Quantidade = quantidade;
+                    simsService.Edit(entity);
+
+                    AppConfig.UpdateSetting("disparos", quantidade.ToString());
 
                     conn.Close();
                 }
@@ -170,6 +211,17 @@ namespace Libs
         private void ShowMessage(SmsPdu pdu)
         {
             BindGrid(pdu);
+        }
+
+        private int GetTamanhoMsg(string text)
+        {
+            if (text.Length <= 160)
+                return 1;
+            if (text.Length <= 320)
+                return 2;
+            if (text.Length <= 480)
+                return 3;
+            return 4;
         }
     }
 }

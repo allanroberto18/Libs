@@ -93,7 +93,6 @@ namespace Libs
             if (text.Length > 160)
             {
                 EnviarMensagemByArray(text, phone, entitySims);
-
                 return true;
             }
 

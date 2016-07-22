@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F56F9DC4-EE3F-4700-9C11-1D307F1F74C4}</ProjectGuid>
+    <ProjectGuid>{8977F8CE-DB1A-44D0-B40D-710EDB17AF49}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Libs</RootNamespace>
     <AssemblyName>Libs</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -47,7 +47,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -71,14 +71,11 @@
     <Compile Include="Validacao.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="sms_converted.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj">
-      <Project>{449a1d9a-dcbe-4fb3-8a0b-e6fef1d01020}</Project>
+      <Project>{73e72f86-b825-420d-8b73-6c3d0a2afa37}</Project>
       <Name>Entities</Name>
     </ProjectReference>
   </ItemGroup>
